@@ -134,4 +134,135 @@ describe('complexOperation - INTEGRATION TEST', () => {
   });
 });
 
+//*FUNTIONS MOCK*//
+
+describe('Mock: ComplexOperations',() =>{
+  describe('Mock: checkEmail',() =>{
+    beforeEach(()=> {
+      jest.restoreAllMocks()
+    });
+    it('Mock: null email', () => {
+      jest.spyOn(basicOperations, 'validateEmail').mockReturnValue(null);
+      expect(complexOperations.checkEmail('mocked')).toBe('The email is invalid');
+    });
+    it('Mock: undefined email',() =>{
+      jest.spyOn(basicOperations, 'validateEmail').mockReturnValue(undefined);
+      expect(complexOperations.checkEmail('mocked')).toBe('The email is invalid');
+    }); 
+    it('Mock:correct email',() =>{
+      jest.spyOn(basicOperations, 'validateEmail').mockReturnValue('mica@gmail.com');
+      expect(complexOperations.checkEmail('mocked')).toBe('The email is valid');
+    });    
+  });
+
+  describe('Mock: Calculate Area',() =>{
+    beforeEach(()=> {
+      jest.restoreAllMocks()
+    });
+    it('Mock: undefined figure',() =>{
+      jest.spyOn(basicOperations, 'isSupportedFigure').mockReturnValue(undefined);
+      expect(complexOperations.calculateArea('triangle',0,0)).toBe('triangle is not supported');
+    });
+    it('Mock: default figure',() =>{
+      jest.spyOn(basicOperations, 'isSupportedFigure').mockReturnValue('default');
+      expect(complexOperations.calculateArea('default',0,0)).toBe('default is not supported');
+    });
+    it('Mock:Area in Square',() =>{
+      jest.spyOn(basicOperations, 'multip').mockReturnValue(10);
+      expect(complexOperations.calculateArea('square',0,0)).toBe(10);
+    });
+    it('Mock:Area in Rectangle',() =>{
+      jest.spyOn(basicOperations, 'multip').mockReturnValue(15);
+      expect(complexOperations.calculateArea('rectangle',0,0)).toBeCloseTo(15);
+    });
+    it('Mock:Area in Circle-exponent',() =>{
+      jest.spyOn(basicOperations, 'exponent').mockReturnValue(10);
+      expect(complexOperations.calculateArea('circle',0,0)).toBeCloseTo(31.41592653589793);
+    });
+  });
+  describe('Mock: SumGreaterThan',() =>{
+    beforeEach(()=> {
+      jest.restoreAllMocks()
+    });
+    it('Mock: parameter undefined',() =>{
+      jest.spyOn(basicOperations, 'isNumber').mockReturnValue(undefined);
+      expect(complexOperations.sumGratherThan(10,20,40)).toBe('The params should be numbers');
+    });
+    it('Mock: sum to be greater than third number',() =>{
+     jest.spyOn(basicOperations, 'sum').mockReturnValue('100');
+     expect(complexOperations.sumGratherThan(0,0,10)).toBe('100 is grather than 10');
+    });
+    it('Mock: sum to be less than third number',() =>{
+      jest.spyOn(basicOperations, 'sum').mockReturnValue('5');
+      expect(complexOperations.sumGratherThan(0,0,10)).toBe('5 is less than 10');
+    })      
+  });
+  describe('Mock: Array-Match',() =>{
+    beforeEach(()=> {
+      jest.restoreAllMocks()
+    });
+    it('Mock:undefined array',() =>{
+      jest.spyOn(basicOperations, 'isArray').mockReturnValue(undefined);
+      expect(complexOperations.intersectionBetweenArrays([10,15,20],[20,25,330])).toBe('The params should be arrays');
+    });
+    it('Mock: null array', () => {
+      jest.spyOn(basicOperations, 'isArray').mockReturnValue(null);
+      expect(complexOperations.intersectionBetweenArrays()).toBe('The params should be arrays');
+    });
+    it('Mock: no match funtion',() =>{
+      jest.spyOn(basicOperations, 'arrayIntersection').mockReturnValue([]);
+      expect(complexOperations.intersectionBetweenArrays([1,2,3],[4,5,6])).toBe('There are not matching elements');
+    });
+    it('Mock: match funtion', () => {
+      jest.spyOn(basicOperations, 'arrayIntersection').mockReturnValue([10, 5, 1]);
+      expect(complexOperations.intersectionBetweenArrays([], [])).toStrictEqual([10, 5, 1]);
+    });
+
+  describe('Mock: sortArrayOfObjectsByKey ',() =>{
+    beforeEach(()=> {
+      jest.restoreAllMocks()
+    });
+   
+    it('Mock: string undefined',() =>{
+      jest.spyOn(basicOperations, 'isString').mockReturnValue(undefined);
+      expect(complexOperations.sortArrayOfObjectsByKey([{key:1},{key:2},{key:3}],'key'))
+      .toBe('The second param should be an string');
+    });
+    it('Mock:sortArrayByKey to match',() =>{
+      jest.spyOn(basicOperations, 'sortArrayByKey').mockReturnValue(
+      [{fruit:'apple'},{fruit:'orange'},{fruit:'pear'}],'fruit');
+      expect(complexOperations.sortArrayOfObjectsByKey([{key:1},{key:2},{key:3}],'key'))
+      .toEqual([{fruit:'apple'},{fruit:'orange'},{fruit:'pear'}]);
+    });
+  });
+  describe('Mock: sortArrayOfObjectsByKey ',() =>{
+    beforeEach(()=> {
+      jest.restoreAllMocks()
+    });
+    it('Mock:undefined-1',() =>{
+      jest.spyOn(basicOperations, 'isArray').mockReturnValue(undefined);
+      expect(complexOperations.numberOfOddAndEvenNumbers([20,30,40])).toBe('The param should be an array');
+    });
+    it('Mock:undefined-2',() =>{
+      jest.spyOn(basicOperations, 'isNumber').mockReturnValue(undefined);
+      expect(complexOperations.numberOfOddAndEvenNumbers([50,60,70])).toBe('The array should have only numbers');
+    });
+    it('Mock:only odds',() =>{
+      jest.spyOn(basicOperations, 'getOddNumbersFromArray').mockReturnValue([1,7,9,11]);
+      expect(complexOperations.numberOfOddAndEvenNumbers([1,7,9])).toEqual(
+      {odd:4, even:0});
+    });
+    it('Mock:only even',() =>{
+      jest.spyOn(basicOperations, 'getOddNumbersFromArray').mockReturnValue([2,4,6,8]);
+      expect(complexOperations.numberOfOddAndEvenNumbers([2,4,6])).toEqual(
+      {odd:4, even:3});
+    });
+    it('Mock: even and odd',() =>{
+      jest.spyOn(basicOperations, 'getOddNumbersFromArray').mockReturnValue([1,3,5,7]);
+      jest.spyOn(basicOperations, 'getEvenNumbersFromArray').mockReturnValue([2,4,6,8,10]);
+      expect(complexOperations.numberOfOddAndEvenNumbers([1,2,3])).toEqual({odd:4, even:5});
+    });
+  });
+});
+});
 
